@@ -26,7 +26,7 @@ def create_people_table():
 
     connection = sqlite3.connect('social_network.db')
     cur = connection.cursor()
-    peoples_table = """
+    create_ppl_tbl_query = """
     CREATE TABLE IF NOT EXISTS people
     (
     id INTEGER PRIMARY KEY,
@@ -41,9 +41,8 @@ def create_people_table():
     updated_at DATETIME NOT NULL
     );
     """
-    cur.execute(peoples_table)
+    cur.execute(create_ppl_tbl_query)
     connection.commit()
-    connection.close()
     return
 
 def populate_people_table():
@@ -52,8 +51,8 @@ def populate_people_table():
     # Hint: See example code in lab instructions entitled "Inserting Data into a Table"
     # Hint: See example code in lab instructions entitled "Working with Faker"
 
-#connection = sqlite3.connect('social_network.db') 
-#cursor = connection.cursor()
+connection = sqlite3.connect('social_network.db') 
+cursor = connection.cursor()
 add_person_query = """
     INSERT INTO people
     (
@@ -80,10 +79,10 @@ new_person = ('Bob Loblaw',
               datetime.now(),
               datetime.now())
 
-#cursor.execute(add_person_query, new_person)
-#connection.commit()
-#connection.close()
+cursor.execute(add_person_query, new_person)
+connection.commit()
 
+#Getting data using Faker.
 fake_data = Faker()
 connection = sqlite3.connect('social_network.db') 
 cursor = connection.cursor()
@@ -96,8 +95,8 @@ for _ in range(200):
     province = fake_data.state()
     bio = fake_data.text(max_nb_chars=200)
     age = fake_data.random_int(min=1, max=100)
-    created_at = datetime.now().isoformat()
-    updated_at = datetime.now().isoformat()
+    created_at = datetime.now()
+    updated_at = datetime.now()
     cursor.execute("INSERT INTO people (name, email, address, city, province, bio, age, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, email, address, city, province, bio, age, created_at, updated_at))
 
 connection.commit()
