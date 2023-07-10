@@ -44,7 +44,6 @@ def create_people_table():
     cur.execute(peoples_table)
     connection.commit()
     connection.close()
-    print(peoples_table)
     return
 
 def populate_people_table():
@@ -53,9 +52,8 @@ def populate_people_table():
     # Hint: See example code in lab instructions entitled "Inserting Data into a Table"
     # Hint: See example code in lab instructions entitled "Working with Faker"
 
-fake_data = Faker()
-connection = sqlite3.connect('social_network.db') 
-cursor = connection.cursor()
+#connection = sqlite3.connect('social_network.db') 
+#cursor = connection.cursor()
 add_person_query = """
     INSERT INTO people
     (
@@ -82,10 +80,28 @@ new_person = ('Bob Loblaw',
               datetime.now(),
               datetime.now())
 
+#cursor.execute(add_person_query, new_person)
+#connection.commit()
+#connection.close()
+
+fake_data = Faker()
+connection = sqlite3.connect('social_network.db') 
+cursor = connection.cursor()
 cursor.execute(add_person_query, new_person)
+for _ in range(200):
+    name = fake_data.name()
+    email = fake_data.email()
+    address = fake_data.address().replace('\n', ', ')
+    city = fake_data.city()
+    province = fake_data.state()
+    bio = fake_data.text(max_nb_chars=200)
+    age = fake_data.random_int(min=1, max=100)
+    created_at = datetime.now().isoformat()
+    updated_at = datetime.now().isoformat()
+    cursor.execute("INSERT INTO people (name, email, address, city, province, bio, age, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, email, address, city, province, bio, age, created_at, updated_at))
+
 connection.commit()
 connection.close()
-
 
 if __name__ == '__main__':
    main()
