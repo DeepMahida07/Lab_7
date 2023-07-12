@@ -48,11 +48,16 @@ def print_name_and_age(name_and_age_list):
     """
     # TODO: Create function body
     # Hint: Use a for loop to iterate the list of tuples to print a sentence for each old person
-    name_and_age_list = get_old_people()
+    #name_and_age_list = get_old_people()
+    connection = sqlite3.connect('social_network.db')
+    cur = connection.cursor()
+    cur.execute("SELECT name, age FROM people")
+    name_and_age_list = cur.fetchall()
+    
     for people in name_and_age_list:
         name, age = people
         if age >= 60:
-            print(f'This people are are above {age} years and there names are {name}.')
+            print(f'Person named {name} is above 60 years.')
     return
 
 def save_name_and_age_to_csv(name_and_age_list, csv_path):
@@ -64,8 +69,13 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
     """
     # TODO: Create function body
     # Hint: In Lab 3, we converted a list of tuples into a pandas DataFrame and saved it to a CSV file
-    csv_path = r'D:\Semester 2\Scripting Applications\Lab_7'
-    with open(csv_path, 'w', newline='') as csvfile:
+    #csv_path = r'D:\Semester 2\Scripting Applications\Lab_7'
+    connection = sqlite3.connect('social_network.db')
+    cur = connection.cursor()
+    cur.execute("SELECT name, age FROM people")
+    name_and_age_list = cur.fetchall()
+
+    with open(csv_path, 'w',  newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Name', 'Age'])
     for person in name_and_age_list:
