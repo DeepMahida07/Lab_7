@@ -69,7 +69,7 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
     """
     # TODO: Create function body
     # Hint: In Lab 3, we converted a list of tuples into a pandas DataFrame and saved it to a CSV file
-    #csv_path = r'D:\Semester 2\Scripting Applications\Lab_7'
+    csv_path = r'D:\Semester 2\Scripting Applications\Lab_7\old_people.csv'
     connection = sqlite3.connect('social_network.db')
     cur = connection.cursor()
     cur.execute("SELECT name, age FROM people")
