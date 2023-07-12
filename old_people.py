@@ -10,8 +10,8 @@ import os
 from create_db import db_path, script_dir
 from pprint import pprint
 import sqlite3
-import csv
-
+#import csv
+import pandas as pd
 
 def main():
     old_people_list = get_old_people()
@@ -69,17 +69,22 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
     """
     # TODO: Create function body
     # Hint: In Lab 3, we converted a list of tuples into a pandas DataFrame and saved it to a CSV file
+    #csvfile = ('old_people.csv')
     csv_path = r'D:\Semester 2\Scripting Applications\Lab_7\old_people.csv'
     connection = sqlite3.connect('social_network.db')
     cur = connection.cursor()
     cur.execute("SELECT name, age FROM people")
     name_and_age_list = cur.fetchall()
 
-    with open(csv_path, 'w',  newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Name', 'Age'])
-    for person in name_and_age_list:
-            writer.writerow(person)
+    old_people_list = [person for person in name_and_age_list if person[1] >= 60]
+    df = pd.DataFrame(old_people_list, columns=['Name', 'Age'])
+    df.to_csv(csv_path, index=False)
+
+    #with open(csv_path, 'w', 'R', newline='') as csvfile:
+        #writer = csv.writer(csvfile)
+        #writer.writerow(['Name', 'Age'])
+    #for person in name_and_age_list:
+            #writer.writerow(person)
 
 if __name__ == '__main__':
    main()
