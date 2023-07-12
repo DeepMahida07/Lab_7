@@ -87,7 +87,7 @@ fake_data = Faker()
 connection = sqlite3.connect('social_network.db') 
 cursor = connection.cursor()
 cursor.execute(add_person_query, new_person)
-for _ in range(0, 200):
+for _ in range(200):
     name = fake_data.name()
     email = fake_data.email()
     address = fake_data.address().replace('\n', ', ')
