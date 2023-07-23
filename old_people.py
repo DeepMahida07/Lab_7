@@ -77,7 +77,7 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
 
     old_people_list = [person for person in name_and_age_list if person[1] >= 60]
     df = pd.DataFrame(old_people_list[:100], columns=['Name', 'Age'])
-    df.to_csv(csv_path, index=False)
+    df.to_csv(csv_path, index= True)
 
 if __name__ == '__main__':
    main()
